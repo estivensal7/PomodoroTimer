@@ -1,0 +1,33 @@
+{
+	"name": "PomodoroTimer",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/estivensal7/PomodoroTimer.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/estivensal7/PomodoroTimer/issues"
+	},
+	"homepage": "https://github.com/estivensal7/PomodoroTimer#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"concurrently": "^5.2.0",
+		"config": "^3.3.1",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.20",
+		"morgan": "^1.10.0",
+		"nodemon": "^2.0.4"
+	}
+}
