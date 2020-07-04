@@ -1,6 +1,8 @@
 const { Router } = require("express");
 // const auth = require("../../middleware/auth");
 const bcrypt = require("bcryptjs");
+const config = require("config");
+const jwt = require("jsonwebtoken");
 // User Model
 const User = require("../../models/User.js");
 
@@ -39,14 +41,24 @@ router.post("/", (req, res) => {
 				newUser.password = hash;
 
 				newUser.save().then((user) => {
-					res.json({
-						user: {
-							id: user.id,
-							firstName: user.firstName,
-							lastName: user.lastName,
-							email: user.email,
-						},
-					});
+					jwt.sign(
+						{ id: user.id, email: user.email },
+						config.get("jwtSecret"),
+						{ expiresIn: 3600 },
+						(err, token) => {
+							if (err) throw err;
+
+							res.json({
+								token,
+								user: {
+									id: user.id,
+									firstName: user.firstName,
+									lastName: user.lastName,
+									email: user.email,
+								},
+							});
+						}
+					);
 				});
 			});
 		});

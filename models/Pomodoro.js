@@ -13,7 +13,7 @@ const PomodoroSchema = new Schema(
 			required: true,
 		},
 		status: {
-			type: Boolean,
+			type: String,
 			default: "incomplete",
 		},
 	},

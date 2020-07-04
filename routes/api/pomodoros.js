@@ -1,5 +1,5 @@
 const { Router } = require("express");
-// const auth = require("../../middleware/auth");
+const auth = require("../../middleware/auth.js");
 // Pomodoro Model
 const Pomodoro = require("../../models/Pomodoro.js");
 
@@ -23,12 +23,49 @@ router.get("/", async (req, res) => {
 });
 
 /**
+ * @route   GET api/pomodoros/user/:user_id
+ * @desc    Get All Pomodoros by user_id
+ * @access  Private
+ */
+
+router.get("/user/:user_id", auth, async (req, res) => {
+	try {
+		const pomodoros = await Pomodoro.find({ user_id: req.params.user_id });
+		if (!pomodoros) throw Error("No items");
+
+		res.status(200).json(pomodoros);
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
+
+/**
+ * @route   GET api/pomodoros/user/:user_id/:status
+ * @desc    Get All Pomodoros by user_id & by status
+ * @access  Private
+ */
+
+router.get("/user/:user_id/:status", auth, async (req, res) => {
+	try {
+		const pomodoros = await Pomodoro.find({
+			user_id: req.params.user_id,
+			status: req.params.status,
+		});
+		if (!pomodoros) throw Error("No items");
+
+		res.status(200).json(pomodoros);
+	} catch (e) {
+		res.status(400).json({ msg: e.message });
+	}
+});
+
+/**
  * @route   POST api/pomodoros
  * @desc    Create A Pomodoro
  * @access  Private
  */
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
 	const newPomodoro = new Pomodoro({
 		text: req.body.text,
 		user_id: req.body.user_id,
@@ -50,7 +87,7 @@ router.post("/", async (req, res) => {
  * @access  Private
  */
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth, async (req, res) => {
 	try {
 		const updatedPomodoro = await Pomodoro.findOneAndUpdate(
 			{ _id: req.params.id },
@@ -72,7 +109,7 @@ router.put("/:id", async (req, res) => {
  * @access  Private
  */
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
 	try {
 		const pomodoro = await Pomodoro.findById(req.params.id);
 		if (!pomodoro) throw Error("No item found");

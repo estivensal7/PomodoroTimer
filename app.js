@@ -1,14 +1,12 @@
-let express = require("express");
-let mongoose = require("mongoose");
-let path = require("path");
-let cors = require("cors");
-let morgan = require("morgan");
-let config = require("./config");
+const express = require("express");
+const mongoose = require("mongoose");
+const path = require("path");
+const cors = require("cors");
+const morgan = require("morgan");
+const config = require("./config");
 
 // routes
-// let authRoutes = require('./routes/api/auth');
-let pomodoroRoutes = require("./routes/api/pomodoros");
-let userRoutes = require("./routes/api/users");
+const routes = require("./routes");
 
 const { MONGO_URI, MONGO_DB_NAME } = config;
 
@@ -35,9 +33,7 @@ mongoose
 	.catch((err) => console.log(err));
 
 // Use Routes
-app.use("/api/pomodoros", pomodoroRoutes);
-app.use("/api/users", userRoutes);
-// app.use('/api/auth', authRoutes);
+app.use(routes);
 
 // Serve static assets if in production
 // if (process.env.NODE_ENV === 'production') {

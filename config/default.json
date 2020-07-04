@@ -1,0 +1,4 @@
+{
+	"mongoURI": "mongodb+srv://graphqlUser:Test123@cluster0-uq6pl.mongodb.net/pomodoro-timer?retryWrites=true",
+	"jwtSecret": "sl_myJwtSecret"
+}
