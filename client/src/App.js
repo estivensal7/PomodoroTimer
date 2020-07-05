@@ -8,6 +8,7 @@ import store from "./store";
 // Importing Pages && Components
 import Navigation from "./Components/Navigation";
 import PomodoroList from "./Components/PomodoroList";
+import Authentication from "./Pages//Authentication";
 
 //Importing actions
 import { loadUser } from "./actions/authActions";
@@ -22,7 +23,8 @@ class App extends Component {
 			<Provider store={store}>
 				<div className="App">
 					<Navigation />
-					<PomodoroList />
+					{/* <PomodoroList /> */}
+					{/* <Authentication /> */}
 				</div>
 			</Provider>
 		);

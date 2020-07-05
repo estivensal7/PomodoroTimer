@@ -9,6 +9,10 @@ import {
 	NavLink,
 } from "reactstrap";
 
+import RegisterModal from "../RegisterModal";
+import LogoutModal from "../Logout";
+import LoginModal from "../LoginModal/";
+
 const Navigation = (props) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -22,8 +26,18 @@ const Navigation = (props) => {
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className="ml-auto" navbar>
 						<NavItem>
-							<NavLink href="https://github.com/estivensal7/PomodoroTimer">
-								GitHub
+							<NavLink href="#">
+								<RegisterModal />
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink href="#">
+								<LogoutModal />
+							</NavLink>
+						</NavItem>
+						<NavItem>
+							<NavLink href="#">
+								<LoginModal />
 							</NavLink>
 						</NavItem>
 					</Nav>
