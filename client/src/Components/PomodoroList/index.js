@@ -2,12 +2,16 @@ import React, { Component } from "react";
 import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
-import { getPomodoros, deletePomodoro } from "../../actions/pomodoroActions";
+import {
+	getPomodorosByUser,
+	deletePomodoro,
+} from "../../actions/pomodoroActions";
 import PropTypes from "prop-types";
 
 class PomodoroList extends Component {
 	componentDidMount() {
-		this.props.getPomodoros();
+		const { user } = this.props.auth;
+		this.props.getPomodorosByUser(user.id);
 	}
 
 	onDeleteClick = (id) => {
@@ -51,15 +55,17 @@ class PomodoroList extends Component {
 }
 
 PomodoroList.propTypes = {
-	getPomodoros: PropTypes.func.isRequired,
+	getPomodorosByUser: PropTypes.func.isRequired,
 	deletePomodoro: PropTypes.func.isRequired,
 	pomodoro: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
 	pomodoro: state.pomodoro,
+	auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPomodoros, deletePomodoro })(
+export default connect(mapStateToProps, { getPomodorosByUser, deletePomodoro })(
 	PomodoroList
 );

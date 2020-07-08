@@ -14,6 +14,8 @@ import {
 import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions//errorActions";
+import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 
 const LoginModal = ({ isAuthenticated, error, login, clearErrors }) => {
 	const [modal, setModal] = useState(false);
@@ -30,7 +32,7 @@ const LoginModal = ({ isAuthenticated, error, login, clearErrors }) => {
 	const handleChangeEmail = (e) => setEmail(e.target.value);
 	const handleChangePassword = (e) => setPassword(e.target.value);
 
-	const handleOnSubmit = (e) => {
+	const handleOnSubmit = async (e) => {
 		e.preventDefault();
 
 		const userCredentials = {
@@ -43,7 +45,7 @@ const LoginModal = ({ isAuthenticated, error, login, clearErrors }) => {
 	};
 
 	useEffect(() => {
-		// Check for register error
+		// Check for login error
 		if (error.id === "LOGIN_FAIL") {
 			setMsg(error.msg.msg);
 		} else {
@@ -57,6 +59,11 @@ const LoginModal = ({ isAuthenticated, error, login, clearErrors }) => {
 			}
 		}
 	}, [error, handleToggle, isAuthenticated, modal]);
+
+	//Redirect If Logged In
+	if (isAuthenticated) {
+		return <Redirect to="/dashboard" />;
+	}
 
 	return (
 		<div>
@@ -101,6 +108,12 @@ const LoginModal = ({ isAuthenticated, error, login, clearErrors }) => {
 			</Modal>
 		</div>
 	);
+};
+
+LoginModal.propTypes = {
+	login: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
+	error: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

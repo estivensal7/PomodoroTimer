@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import {
 	Collapse,
 	Navbar,
@@ -7,16 +7,40 @@ import {
 	Nav,
 	NavItem,
 	NavLink,
+	NavbarText,
 } from "reactstrap";
 
-import RegisterModal from "../RegisterModal";
-import LogoutModal from "../Logout";
-import LoginModal from "../LoginModal/";
+import Logout from "../Logout";
+import { connect } from "react-redux";
+import { logout } from "../../actions/authActions";
+import PropTypes from "prop-types";
 
-const Navigation = (props) => {
+const Navigation = ({ auth, logout }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggle = () => setIsOpen(!isOpen);
+	const { isAuthenticated, user } = auth;
+
+	const authLinks = (
+		<Fragment>
+			<NavbarText>
+				<span className="navbar-text mr-3">
+					<strong>{user ? `Hi, ${user.firstName}!` : ""}</strong>
+				</span>
+			</NavbarText>
+			<NavLink onClick={logout} href="#!">
+				<i className="fas fa-sign-out-alt" />{" "}
+				<span className="hide-sm">Logout</span>
+			</NavLink>
+		</Fragment>
+	);
+
+	const guestLinks = (
+		<Fragment>
+			<NavLink href="/register">Register</NavLink>
+			<NavLink href="/login">Login</NavLink>
+		</Fragment>
+	);
 
 	return (
 		<div>
@@ -25,21 +49,7 @@ const Navigation = (props) => {
 				<NavbarToggler onClick={toggle} />
 				<Collapse isOpen={isOpen} navbar>
 					<Nav className="ml-auto" navbar>
-						<NavItem>
-							<NavLink href="#">
-								<RegisterModal />
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="#">
-								<LogoutModal />
-							</NavLink>
-						</NavItem>
-						<NavItem>
-							<NavLink href="#">
-								<LoginModal />
-							</NavLink>
-						</NavItem>
+						{isAuthenticated ? authLinks : guestLinks}
 					</Nav>
 				</Collapse>
 			</Navbar>
@@ -47,4 +57,13 @@ const Navigation = (props) => {
 	);
 };
 
-export default Navigation;
+Navbar.propTypes = {
+	logout: PropTypes.func.isRequired,
+	auth: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+	auth: state.auth,
+});
+
+export default connect(mapStateToProps, { logout })(Navigation);

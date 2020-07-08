@@ -1,34 +1,39 @@
-import React, { Component } from "react";
+import React, { Fragment, useEffect } from "react";
 import "./App.css";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-// Importing Redux Provider && Store
+// Importing Router Component && Navigation Bar
+import Navigation from "./Components/Navigation";
+import Home from "./Pages//Home";
+import Routes from "./Routes";
+
+// Redux
 import { Provider } from "react-redux";
 import store from "./store";
-
-// Importing Pages && Components
-import Navigation from "./Components/Navigation";
-import PomodoroList from "./Components/PomodoroList";
-import Authentication from "./Pages//Authentication";
-
-//Importing actions
 import { loadUser } from "./actions/authActions";
+import setAuthToken from "./Utils/setAuthToken";
+import Alerts from "./Components/Alerts/";
 
-class App extends Component {
-	componentDidMount() {
-		store.dispatch(loadUser);
-	}
+const App = () => {
+	useEffect(() => {
+		setAuthToken(localStorage.token);
+		store.dispatch(loadUser());
+	}, []);
 
-	render() {
-		return (
-			<Provider store={store}>
-				<div className="App">
+	return (
+		<Provider store={store}>
+			<Router>
+				<Fragment>
 					<Navigation />
-					{/* <PomodoroList /> */}
-					{/* <Authentication /> */}
-				</div>
-			</Provider>
-		);
-	}
-}
+					<Alerts />
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route component={Routes} />
+					</Switch>
+				</Fragment>
+			</Router>
+		</Provider>
+	);
+};
 
 export default App;

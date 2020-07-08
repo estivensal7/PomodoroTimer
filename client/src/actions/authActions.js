@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { setAlert } from "./alertActions";
 import { returnErrors } from "./errorActions";
 
 import {
@@ -11,6 +12,7 @@ import {
 	LOGOUT_SUCCESS,
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
+	SET_ALERT,
 } from "./types";
 
 // Check token & load user
@@ -35,7 +37,7 @@ export const loadUser = () => (dispatch, getState) => {
 };
 
 // Register User
-export const register = ({ firstName, lastName, email, password }) => (
+export const register = ({ firstName, lastName, email, password }) => async (
 	dispatch
 ) => {
 	// Headers
@@ -48,26 +50,44 @@ export const register = ({ firstName, lastName, email, password }) => (
 	// Request Body
 	const body = JSON.stringify({ firstName, lastName, email, password });
 
-	axios
-		.post("/api/user", body, config)
-		.then((res) => {
-			dispatch({
-				type: REGISTER_SUCCESS,
-				payload: res.data,
-			});
-		})
-		.catch((err) => {
-			dispatch(
-				returnErrors(
-					err.response.data,
-					err.response.status,
-					"REGISTER_FAIL"
-				)
-			);
-			dispatch({
-				type: REGISTER_FAIL,
-			});
+	try {
+		const res = await axios.post("/api/user", body, config);
+		dispatch({
+			type: REGISTER_SUCCESS,
+			payload: res.data,
 		});
+	} catch (err) {
+		const errors = err.response.data.errors;
+		if (errors) {
+			errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+		}
+
+		dispatch({
+			type: REGISTER_FAIL,
+		});
+	}
+
+	// axios
+	// 	.post("/api/user", body, config)
+	// 	.then((res) => {
+	// 		dispatch({
+	// 			type: REGISTER_SUCCESS,
+	// 			payload: res.data,
+	// 		});
+	// 		dispatch(loadUser());
+	// 	})
+	// 	.catch((err) => {
+	// 		dispatch(
+	// 			returnErrors(
+	// 				err.response.data,
+	// 				err.response.status,
+	// 				"REGISTER_FAIL"
+	// 			)
+	// 		);
+	// 		dispatch({
+	// 			type: REGISTER_FAIL,
+	// 		});
+	// 	});
 };
 
 // Setup config/headers && token
@@ -116,6 +136,7 @@ export const login = ({ email, password }) => (dispatch) => {
 				type: LOGIN_SUCCESS,
 				payload: res.data,
 			});
+			dispatch(loadUser());
 		})
 		.catch((err) => {
 			dispatch(

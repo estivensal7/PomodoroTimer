@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { register } from "../../actions/authActions";
 import { clearErrors } from "../../actions//errorActions";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 
 const RegisterModal = ({ isAuthenticated, error, register, clearErrors }) => {
 	const [modal, setModal] = useState(false);
@@ -62,6 +63,8 @@ const RegisterModal = ({ isAuthenticated, error, register, clearErrors }) => {
 		if (modal) {
 			if (isAuthenticated) {
 				handleToggle();
+				//Redirect If Logged In
+				return <Redirect to="/dashboard" />;
 			}
 		}
 	}, [error, handleToggle, isAuthenticated, modal]);
@@ -129,6 +132,12 @@ const RegisterModal = ({ isAuthenticated, error, register, clearErrors }) => {
 			</Modal>
 		</div>
 	);
+};
+
+RegisterModal.propTypes = {
+	register: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
+	error: PropTypes.object,
 };
 
 const mapStateToProps = (state) => ({

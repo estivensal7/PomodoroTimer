@@ -7,17 +7,19 @@ import {
 	LOGOUT_SUCCESS,
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
+	SET_CURRENT_USER,
 } from "../actions/types";
 
 const initialState = {
 	token: localStorage.getItem("token"),
-	isAuthenticated: null,
-	isLoading: false,
+	isAuthenticated: true,
+	isLoading: true,
 	user: null,
 };
 
 export default function (state = initialState, action) {
-	switch (action.type) {
+	const { type, payload } = action;
+	switch (type) {
 		case USER_LOADING:
 			return {
 				...state,
@@ -28,14 +30,14 @@ export default function (state = initialState, action) {
 				...state,
 				isAuthenticated: true,
 				isLoading: false,
-				user: action.payload,
+				user: payload,
 			};
 		case LOGIN_SUCCESS:
 		case REGISTER_SUCCESS:
-			localStorage.setItem("token", action.payload.token);
+			localStorage.setItem("token", payload.token);
 			return {
 				...state,
-				...action.payload,
+				...payload,
 				isAuthenticated: true,
 				isLoading: false,
 			};
