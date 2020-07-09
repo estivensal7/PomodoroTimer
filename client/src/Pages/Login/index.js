@@ -22,14 +22,14 @@ const Login = ({ login, isAuthenticated }) => {
 		login({ email, password });
 	};
 
-	// if (isAuthenticated) {
-	// 	return <Redirect to="/dashboard" />;
-	// }
+	if (isAuthenticated) {
+		return <Redirect to="/dashboard" />;
+	}
 
 	return (
 		<Fragment>
-			<Container>
-				<h1 className="large text-primary">Log In</h1>
+			<Container className="container">
+				<h1 className="display-4 text-primary">Sign In</h1>
 				<p className="lead">
 					<i className="fas fa-user" /> Sign In To Your Account
 				</p>

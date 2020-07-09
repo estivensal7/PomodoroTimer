@@ -5,13 +5,17 @@ import { connect } from "react-redux";
 
 const ProtectedRoute = ({
 	component: Component,
-	auth: { isAuthenticated, loading },
+	auth: { isAuthenticated },
 	...rest
 }) => (
 	<Route
 		{...rest}
 		render={(props) =>
-			isAuthenticated ? <Component {...props} /> : <Redirect to="/" />
+			isAuthenticated ? (
+				<Component {...props} />
+			) : (
+				<Redirect to="/login" />
+			)
 		}
 	/>
 );

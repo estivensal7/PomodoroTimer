@@ -20,3 +20,13 @@
 	opacity: 0.01;
 	transition: opacity 1000ms ease-in;
 }
+
+/* ~~~~~~~~
+START NAVIGATION STYLING
+~~~~~~~~ */
+.navigation-link,
+.link-component,
+.navigation-text:hover {
+	color: #ff3637;
+	cursor: pointer;
+}
