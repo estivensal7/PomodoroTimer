@@ -1,26 +1,14 @@
-const { Router } = require("express");
 const auth = require("../../middleware/auth.js");
+const express = require("express");
+const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
+const { check, validationResult } = require("express-validator");
+
 // Pomodoro Model
-const Pomodoro = require("../../models/Pomodoro.js");
-
-const router = Router();
-
-/**
- * @route   GET api/pomodoros
- * @desc    Get All Pomodoros
- * @access  Public
- */
-
-router.get("/", async (req, res) => {
-	try {
-		const pomodoros = await Pomodoro.find();
-		if (!pomodoros) throw Error("No items");
-
-		res.status(200).json(pomodoros);
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
-	}
-});
+const Pomodoro = require("../../models/Pomodoro");
+const User = require("../../models/User");
 
 /**
  * @route   GET api/pomodoros/user/:user_id
@@ -59,27 +47,36 @@ router.get("/user/:user_id/:status", auth, async (req, res) => {
 	}
 });
 
-/**
- * @route   POST api/pomodoros
- * @desc    Create A Pomodoro
- * @access  Private
- */
+// @route    POST api/pomodoros
+// @desc     Create a Pomodoro
+// @access   Private
+router.post(
+	"/",
+	[auth, [check("text", "Text is required").not().isEmpty()]],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
 
-router.post("/", auth, async (req, res) => {
-	const newPomodoro = new Pomodoro({
-		text: req.body.text,
-		user_id: req.body.user_id,
-	});
+		try {
+			const user = await User.findById(req.user.id).select("-password");
 
-	try {
-		const pomodoro = await newPomodoro.save();
-		if (!pomodoro) throw Error("Something went wrong saving the item");
+			const newPomodoro = new Pomodoro({
+				text: req.body.text,
+				status: req.body.status,
+				user_id: req.user.id,
+			});
 
-		res.status(200).json(pomodoro);
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
+			const pomodoro = await newPomodoro.save();
+
+			res.json(pomodoro);
+		} catch (err) {
+			console.error(err.message);
+			res.status(500).send("Server Error");
+		}
 	}
-});
+);
 
 /**
  * @route   POST api/pomodoros/:id
