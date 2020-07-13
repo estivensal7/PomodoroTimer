@@ -26,7 +26,89 @@ START NAVIGATION STYLING
 ~~~~~~~~ */
 .navigation-link,
 .link-component,
+.navigation-text {
+	color: blanchedalmond !important;
+}
+
+.navigation-link,
+.link-component,
 .navigation-text:hover {
 	color: #ff3637;
 	cursor: pointer;
+	text-emphasis: none !important;
+	text-decoration: none !important;
 }
+
+.pomodoro-navbar {
+	height: 10vh !important;
+	background-color: black !important;
+}
+
+/* ~~~~~~~~
+END NAVIGATION STYLING
+~~~~~~~~ */
+
+/* ~~~~~~~~
+START HOME PAGE STYLING
+~~~~~~~~ */
+#home-jumbotron {
+	padding-top: 10vh !important;
+	background-color: rgba(0, 0, 0, 0.3);
+	color: blanchedalmond;
+}
+
+.home-card {
+	background-color: rgba(0, 0, 0, 0.5) !important;
+	color: blanchedalmond;
+}
+
+.home-link,
+.home-link > button {
+	color: blanchedalmond;
+	cursor: pointer;
+	text-emphasis: none !important;
+	text-decoration: none !important;
+	border-color: blanchedalmond;
+}
+
+.home-link > button:hover {
+	background-color: rgba(0, 0, 0, 0);
+	color: blanchedalmond !important;
+	border-color: black;
+}
+
+/* ~~~~~~~~
+END HOME PAGE STYLING
+~~~~~~~~ */
+
+/* ~~~~~~~~
+START LOGIN && REGISTER PAGES STYLING
+~~~~~~~~ */
+#login-reactstrap-container,
+#register-page-container {
+	background-color: rgba(0, 0, 0, 0.3);
+	color: blanchedalmond;
+}
+
+.form-input {
+	background-color: black !important;
+	color: blanchedalmond !important;
+	border-color: blanchedalmond !important;
+}
+
+.form-input:focus {
+	border-color: blanchedalmond !important;
+}
+
+.form-button {
+	color: blanchedalmond !important;
+	border-color: blanchedalmond !important;
+}
+
+.form-button:hover {
+	background-color: rgba(0, 0, 0, 0) !important;
+}
+
+/* ~~~~~~~~
+END LOGIN && REGISTER PAGES STYLING
+~~~~~~~~ */

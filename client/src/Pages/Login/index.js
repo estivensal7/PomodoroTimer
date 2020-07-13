@@ -1,10 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/authActions";
 
 import { Button, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import backgroundImage from "../../assets/pomodoro-background-home.jpg";
 
 const Login = ({ login, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
@@ -27,9 +28,15 @@ const Login = ({ login, isAuthenticated }) => {
 	}
 
 	return (
-		<Fragment>
-			<Container className="container">
-				<h1 className="display-4 text-primary">Sign In</h1>
+		<div
+			id="login-page-container"
+			style={{
+				backgroundImage: `url(${backgroundImage})`,
+				backgroundSize: "cover",
+				height: "90vh",
+			}}>
+			<Container className="container" id="login-reactstrap-container">
+				<h1 className="display-4">Sign In</h1>
 				<p className="lead">
 					<i className="fas fa-user" /> Sign In To Your Account
 				</p>
@@ -41,7 +48,7 @@ const Login = ({ login, isAuthenticated }) => {
 							name="email"
 							id="email"
 							placeholder="Email"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
@@ -51,13 +58,15 @@ const Login = ({ login, isAuthenticated }) => {
 							name="password"
 							id="password"
 							placeholder="Password"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 						<Button
 							color="dark"
 							style={{ marginTop: "2rem" }}
-							block>
+							block
+							outline
+							className="form-button">
 							Log In
 						</Button>
 					</FormGroup>
@@ -66,7 +75,7 @@ const Login = ({ login, isAuthenticated }) => {
 					Don't have an account? <Link to="/register">Sign Up</Link>
 				</p>
 			</Container>
-		</Fragment>
+		</div>
 	);
 };
 

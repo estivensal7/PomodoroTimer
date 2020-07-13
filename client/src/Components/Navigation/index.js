@@ -30,13 +30,14 @@ const Navigation = ({ auth: { isAuthenticated, isLoading, user }, logout }) => {
 					</strong>
 				</span>
 			</NavbarText>
-			<NavLink href="/dashboard" className="navigation-link">
-				<i className="fas fa-user" />{" "}
-				<span className="hide-sm">Dashboard</span>
-			</NavLink>
+			<Link to="/dashboard" className="navigation-link">
+				<NavLink>
+					<i className="fas fa-user" /> Dashboard
+				</NavLink>
+			</Link>
 			<NavLink onClick={logout} href="#!">
 				<i className="fas fa-sign-out-alt" />{" "}
-				<span className="hide-sm">Logout</span>
+				<span className="hide-sm navigation-link">Logout</span>
 			</NavLink>
 		</Fragment>
 	);
@@ -44,17 +45,17 @@ const Navigation = ({ auth: { isAuthenticated, isLoading, user }, logout }) => {
 	const guestLinks = (
 		<Fragment>
 			<Link to="/register" className="navigation-link">
-				<NavLink>Register</NavLink>
+				<NavLink className="navigation-link">Register</NavLink>
 			</Link>
 			<Link to="/login" className="navigation-link">
-				<NavLink>Login</NavLink>
+				<NavLink className="navigation-link">Login</NavLink>
 			</Link>
 		</Fragment>
 	);
 
 	return (
 		<div>
-			<Navbar color="dark" dark expand="md">
+			<Navbar dark expand="md" className="pomodoro-navbar">
 				<NavbarBrand href="/">
 					<img
 						id="pomodoro-logo"

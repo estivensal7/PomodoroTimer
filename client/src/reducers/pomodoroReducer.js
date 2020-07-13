@@ -1,5 +1,4 @@
 import {
-	GET_POMODOROS,
 	ADD_POMODORO,
 	DELETE_POMODORO,
 	POMODOROS_LOADING,
@@ -13,12 +12,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
 	switch (action.type) {
-		case GET_POMODOROS:
-			return {
-				...state,
-				pomodoros: action.payload,
-				loading: false,
-			};
 		case GET_POMODOROS_BY_USER:
 			return {
 				...state,

@@ -4,55 +4,26 @@ import {
 	ADD_POMODORO,
 	DELETE_POMODORO,
 	GET_POMODOROS_BY_USER,
+	GET_ERRORS,
 } from "./types";
 import api from "../Utils/api";
 import { setAlert } from "./alertActions";
 
-// export const getPomodoros = () => (dispatch) => {
-// 	dispatch(setPomodorosLoading());
-// 	axios
-// 		.get(`/api/pomodoros/`)
-// 		.then((res) => {
-// 			console.log(res.data);
-// 			dispatch({
-// 				type: GET_POMODOROS,
-// 				payload: res.data,
-// 			});
-// 		})
-// 		.catch((err) =>
-// 			dispatch(returnErrors(err.response.data, err.response.status))
-// 		);
-// };
+export const getPomodorosByUser = () => async (dispatch) => {
+	try {
+		const res = await api.get("/pomodoros");
 
-// export const getPomodorosByUser = (userID) => (dispatch, getState) => {
-// 	dispatch(setPomodorosLoading());
-// 	axios
-// 		.get(`api/pomodoros/user/${userID}`, tokenConfig(getState))
-// 		.then((res) => {
-// 			console.log(res.data);
-// 			dispatch({
-// 				type: GET_POMODOROS_BY_USER,
-// 				payload: res.data,
-// 			});
-// 		})
-// 		.catch((err) =>
-// 			dispatch(returnErrors(err.response.data, err.response.status))
-// 		);
-// };
-
-// export const addPomodoro = (pomodoro) => (dispatch, getState) => {
-// 	axios
-// 		.post("/api/pomodoros", pomodoro, tokenConfig(getState))
-// 		.then((res) =>
-// 			dispatch({
-// 				type: ADD_POMODORO,
-// 				payload: res.data,
-// 			})
-// 		)
-// 		.catch((err) =>
-// 			dispatch(returnErrors(err.response.data, err.response.status))
-// 		);
-// };
+		dispatch({
+			type: GET_POMODOROS_BY_USER,
+			payload: res.data,
+		});
+	} catch (err) {
+		//   dispatch({
+		// 	type: GET_ERRORS,
+		// 	payload: { msg: err.response.statusText, status: err.response.status }
+		//   });
+	}
+};
 
 // Add post
 export const addPomodoro = (formData) => async (dispatch) => {

@@ -16,14 +16,29 @@ const User = require("../../models/User");
  * @access  Private
  */
 
-router.get("/user/:user_id", auth, async (req, res) => {
-	try {
-		const pomodoros = await Pomodoro.find({ user_id: req.params.user_id });
-		if (!pomodoros) throw Error("No items");
+// router.get("/user/:user_id", auth, async (req, res) => {
+// 	try {
+// 		const pomodoros = await Pomodoro.find({ user_id: req.params.user_id });
+// 		if (!pomodoros) throw Error("No items");
 
-		res.status(200).json(pomodoros);
-	} catch (e) {
-		res.status(400).json({ msg: e.message });
+// 		res.status(200).json(pomodoros);
+// 	} catch (e) {
+// 		res.status(400).json({ msg: e.message });
+// 	}
+// });
+
+// @route    GET api/pomodoros
+// @desc     Get all posts
+// @access   Private
+router.get("/", auth, async (req, res) => {
+	try {
+		const pomodoros = await Pomodoro.find({ user_id: req.user.id }).sort({
+			date: -1,
+		});
+		res.json(pomodoros);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send("Server Error");
 	}
 });
 
@@ -66,6 +81,7 @@ router.post(
 				text: req.body.text,
 				status: req.body.status,
 				user_id: req.user.id,
+				priority: req.body.priority,
 			});
 
 			const pomodoro = await newPomodoro.save();

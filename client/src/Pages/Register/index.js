@@ -5,6 +5,7 @@ import { setAlert } from "../../actions/alertActions";
 import { register } from "../../actions/authActions";
 import PropTypes from "prop-types";
 import { Button, Form, FormGroup, Label, Input, Container } from "reactstrap";
+import backgroundImage from "../../assets/pomodoro-background-home.jpg";
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
 	const [formData, setFormData] = useState({
@@ -34,9 +35,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 	}
 
 	return (
-		<Fragment>
+		<div
+			id="register-page-container"
+			style={{
+				backgroundImage: `url(${backgroundImage})`,
+				backgroundSize: "cover",
+				height: "90vh",
+			}}>
 			<Container>
-				<h1 className="display-4 text-primary">Sign Up</h1>
+				<h1 className="display-4">Sign Up</h1>
 				<p className="lead">
 					<i className="fas fa-user" /> Create Your Account
 				</p>
@@ -48,7 +55,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 							name="firstName"
 							id="firstName"
 							placeholder="First name"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
@@ -58,7 +65,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 							name="lastName"
 							id="lastName"
 							placeholder="Last name"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
@@ -68,7 +75,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 							name="email"
 							id="email"
 							placeholder="Email"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
@@ -78,7 +85,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 							name="password"
 							id="password"
 							placeholder="Password"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
@@ -88,14 +95,16 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 							name="password2"
 							id="password2"
 							placeholder="Confirm Password"
-							className="mb-3"
+							className="mb-3 form-input"
 							onChange={onChange}
 						/>
 
 						<Button
 							color="dark"
 							style={{ marginTop: "2rem" }}
-							block>
+							block
+							outline
+							className="form-button">
 							Register Account
 						</Button>
 					</FormGroup>
@@ -104,7 +113,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 					Already have an account? <Link to="/login">Sign In</Link>
 				</p>
 			</Container>
-		</Fragment>
+		</div>
 	);
 };
 

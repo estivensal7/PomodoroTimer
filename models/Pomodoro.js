@@ -16,6 +16,9 @@ const PomodoroSchema = new Schema(
 			type: String,
 			default: "incomplete",
 		},
+		priority: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );
