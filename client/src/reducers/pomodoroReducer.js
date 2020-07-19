@@ -3,6 +3,7 @@ import {
 	DELETE_POMODORO,
 	POMODOROS_LOADING,
 	GET_POMODOROS_BY_USER,
+	UPDATE_POMODORO_STATUS,
 } from "../actions/types.js";
 
 const initialState = {
@@ -24,6 +25,16 @@ export default function (state = initialState, action) {
 				pomodoros: state.pomodoros.filter(
 					(pomodoro) => pomodoro._id !== action.payload
 				),
+			};
+		case UPDATE_POMODORO_STATUS:
+			return {
+				...state,
+				pomodoros: state.pomodoros.map((pomodoro) =>
+					pomodoro._id === action.payload.id
+						? { ...pomodoro, status: action.payload.status }
+						: pomodoro
+				),
+				loading: false,
 			};
 		case ADD_POMODORO:
 			return {

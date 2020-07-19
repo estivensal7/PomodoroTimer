@@ -31,12 +31,17 @@ const Navigation = ({ auth: { isAuthenticated, isLoading, user }, logout }) => {
 				</span>
 			</NavbarText>
 			<Link to="/dashboard" className="navigation-link">
-				<NavLink>
+				<NavLink className="navigation-link">
 					<i className="fas fa-user" /> Dashboard
 				</NavLink>
 			</Link>
+			<Link to="/completed-pomodoros" className="navigation-link">
+				<NavLink className="navigation-link">
+					<i className="fas fa-history" /> Completed Pomodoros
+				</NavLink>
+			</Link>
 			<NavLink onClick={logout} href="#!">
-				<i className="fas fa-sign-out-alt" />{" "}
+				<i className="fas fa-sign-out-alt navigation-link" />{" "}
 				<span className="hide-sm navigation-link">Logout</span>
 			</NavLink>
 		</Fragment>

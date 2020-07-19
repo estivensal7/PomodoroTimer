@@ -1,39 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { Container, ListGroup, ListGroupItem, Button } from "reactstrap";
+import {
+	Container,
+	ListGroup,
+	ListGroupItem,
+	Button,
+	Row,
+	Col,
+} from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 import {
 	getPomodorosByUser,
-	// deletePomodoro,
+	deletePomodoro,
+	updateStatus,
 } from "../../actions/pomodoroActions";
 import PropTypes from "prop-types";
 
 const PomodoroList = ({
-	// deletePomodoro,
 	getPomodorosByUser,
+	updateStatus,
+	deletePomodoro,
 	pomodoro: { pomodoros },
 }) => {
 	useEffect(() => {
 		getPomodorosByUser();
 	}, [getPomodorosByUser]);
 
-	// onDeleteClick = (id) => {
-	// 	this.props.deletePomodoro(id);
-	// };
-
-	const setPriorityColor = (priority) => {
+	const setPriorityColor = (priority, status) => {
 		let priorityColor = "";
 
-		if (priority === "Low") {
-			priorityColor = "info";
-		}
+		if (status !== "complete") {
+			if (priority === "Low") {
+				priorityColor = "info";
+			}
 
-		if (priority === "Moderate") {
-			priorityColor = "warning";
-		}
+			if (priority === "Moderate") {
+				priorityColor = "warning";
+			}
 
-		if (priority === "High") {
-			priorityColor = "danger";
+			if (priority === "High") {
+				priorityColor = "danger";
+			}
+		} else {
+			priorityColor = "success";
 		}
 
 		return priorityColor;
@@ -41,27 +50,53 @@ const PomodoroList = ({
 
 	return (
 		<div>
-			<Container>
+			<Container id="pomodoro-list-container">
 				<ListGroup>
 					<TransitionGroup className="pomodoro-list">
 						{pomodoros.map(({ _id, text, status, priority }) => {
-							return (
-								<CSSTransition
-									key={_id}
-									timeout={500}
-									classNames="fade">
-									<ListGroupItem
-										color={setPriorityColor(priority)}>
-										{text}
-										<Button
-											className="remove-btn"
-											color="danger"
-											size="sm">
-											&times;
-										</Button>
-									</ListGroupItem>
-								</CSSTransition>
-							);
+							if (status === "incomplete") {
+								return (
+									<CSSTransition
+										key={_id}
+										timeout={500}
+										classNames="fade">
+										<Row>
+											<Col md={10}>
+												<ListGroupItem
+													color={setPriorityColor(
+														priority,
+														status
+													)}>
+													{text}
+												</ListGroupItem>
+											</Col>
+											<Col md={1}>
+												<Button
+													className="remove-btn mr-auto"
+													color="danger"
+													size="sm"
+													onClick={() =>
+														deletePomodoro(_id)
+													}>
+													<i className="far fa-trash-alt" />
+												</Button>
+											</Col>
+											<Col md={1}>
+												<Button
+													className="complete-btn"
+													color="success"
+													size="sm"
+													onClick={() =>
+														updateStatus(_id)
+													}>
+													{" "}
+													<i className="fas fa-check" />
+												</Button>
+											</Col>
+										</Row>
+									</CSSTransition>
+								);
+							}
 						})}
 					</TransitionGroup>
 				</ListGroup>
@@ -72,7 +107,8 @@ const PomodoroList = ({
 
 PomodoroList.propTypes = {
 	getPomodorosByUser: PropTypes.func.isRequired,
-	// deletePomodoro: PropTypes.func.isRequired,
+	updateStatus: PropTypes.func.isRequired,
+	deletePomodoro: PropTypes.func.isRequired,
 	pomodoro: PropTypes.object.isRequired,
 };
 
@@ -80,4 +116,8 @@ const mapStateToProps = (state) => ({
 	pomodoro: state.pomodoro,
 });
 
-export default connect(mapStateToProps, { getPomodorosByUser })(PomodoroList);
+export default connect(mapStateToProps, {
+	getPomodorosByUser,
+	updateStatus,
+	deletePomodoro,
+})(PomodoroList);

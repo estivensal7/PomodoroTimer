@@ -38,7 +38,7 @@ const AddPomodoro = ({ addPomodoro }) => {
 	};
 
 	return (
-		<InputGroup>
+		<InputGroup id="add-pomodoro-container">
 			<InputGroupButtonDropdown
 				addonType="append"
 				isOpen={dropdownOpen}

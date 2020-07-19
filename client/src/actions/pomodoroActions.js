@@ -1,10 +1,8 @@
 import {
-	POMODOROS_LOADING,
-	GET_POMODOROS,
 	ADD_POMODORO,
 	DELETE_POMODORO,
 	GET_POMODOROS_BY_USER,
-	GET_ERRORS,
+	UPDATE_POMODORO_STATUS,
 } from "./types";
 import api from "../Utils/api";
 import { setAlert } from "./alertActions";
@@ -44,22 +42,38 @@ export const addPomodoro = (formData) => async (dispatch) => {
 	}
 };
 
-// export const deletePomodoro = (id) => (dispatch, getState) => {
-// 	axios
-// 		.delete(`api/pomodoros/${id}`, tokenConfig(getState))
-// 		.then((res) =>
-// 			dispatch({
-// 				type: DELETE_POMODORO,
-// 				payload: id,
-// 			})
-// 		)
-// 		.catch((err) =>
-// 			dispatch(returnErrors(err.response.data, err.response.status))
-// 		);
-// };
+export const updateStatus = (id) => async (dispatch) => {
+	try {
+		const res = await api.put(`/pomodoros/${id}`, { status: "complete" });
 
-// export const setPomodorosLoading = () => {
-// 	return {
-// 		type: POMODOROS_LOADING,
-// 	};
-// };
+		dispatch({
+			type: UPDATE_POMODORO_STATUS,
+			payload: { id, status: "complete" },
+		});
+
+		dispatch(setAlert("Pomodoro Completed!", "success"));
+	} catch (err) {
+		//   dispatch({
+		// 	type: POST_ERROR,
+		// 	payload: { msg: err.response.statusText, status: err.response.status }
+		//   });
+	}
+};
+
+export const deletePomodoro = (id) => async (dispatch) => {
+	try {
+		await api.delete(`/pomodoros/${id}`);
+
+		dispatch({
+			type: DELETE_POMODORO,
+			payload: id,
+		});
+
+		dispatch(setAlert("Pomodoro Removed.", "success"));
+	} catch (err) {
+		// dispatch({
+		//   type: POST_ERROR,
+		//   payload: { msg: err.response.statusText, status: err.response.status }
+		// });
+	}
+};

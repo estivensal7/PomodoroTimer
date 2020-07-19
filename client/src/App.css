@@ -1,5 +1,7 @@
 /* Transition Group */
-.remove-btn {
+.remove-btn,
+.update-btn,
+.complete-btn {
 	margin-right: 0.5rem;
 }
 
@@ -111,4 +113,45 @@ START LOGIN && REGISTER PAGES STYLING
 
 /* ~~~~~~~~
 END LOGIN && REGISTER PAGES STYLING
+~~~~~~~~ */
+
+/* ~~~~~~~~
+START DASHBOARD PAGE STYLING
+~~~~~~~~ */
+
+#pomodoro-list-container,
+#timer-card-container,
+#add-pomodoro-container {
+	margin-bottom: 2.5vh !important;
+}
+
+#pomodoro-list-container {
+	max-height: 60vh !important;
+	overflow: scroll !important;
+}
+
+/* ~~~~~~~~
+END DASHBOARD PAGE STYLING
+~~~~~~~~ */
+
+/* ~~~~~~~~
+START COMPLETED POMODOROS PAGE STYLING
+~~~~~~~~ */
+
+#pomodoro-table-container {
+	max-height: 80vh !important;
+	overflow: scroll !important;
+}
+
+#pomodoro-table {
+	color: blanchedalmond;
+	background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.table-header {
+	color: #ff3737;
+}
+
+/* ~~~~~~~~
+END COMPLETED POMODOROS PAGE STYLING
 ~~~~~~~~ */

@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const { check, validationResult } = require("express-validator");
+const checkObjectId = require("../../middleware/checkObjectId");
 
 // Pomodoro Model
 const Pomodoro = require("../../models/Pomodoro");
@@ -122,18 +123,25 @@ router.put("/:id", auth, async (req, res) => {
  * @access  Private
  */
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, checkObjectId("id")], async (req, res) => {
 	try {
 		const pomodoro = await Pomodoro.findById(req.params.id);
-		if (!pomodoro) throw Error("No item found");
+		console.log(pomodoro);
+		if (!pomodoro)
+			return res.status(404).json({ msg: "Pomodoro not found" });
 
-		const removed = await pomodoro.remove();
-		if (!removed)
-			throw Error("Something went wrong while trying to delete the item");
+		// Check user
+		if (pomodoro.user_id.toString() !== req.user.id) {
+			return res.status(401).json({ msg: "User not authorized" });
+		}
 
-		res.status(200).json({ success: true });
-	} catch (e) {
-		res.status(400).json({ msg: e.message, success: false });
+		await pomodoro.remove();
+
+		res.json({ msg: "Pomodoro removed." });
+	} catch (err) {
+		console.error(err.message);
+
+		res.status(500).send("Server Error");
 	}
 });
 
