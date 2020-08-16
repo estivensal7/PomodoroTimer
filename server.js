@@ -3,4 +3,6 @@ let config = require("./config");
 
 const { PORT } = config;
 
-app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
+app.listen(PORT, () => {
+	console.log(`Server started on PORT ${PORT}`);
+});
