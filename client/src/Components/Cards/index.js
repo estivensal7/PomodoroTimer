@@ -1,15 +1,7 @@
 import React from "react";
 import { Card, CardTitle, CardText, Row, Col } from "reactstrap";
 
-const Cards = ({
-	background,
-	icon,
-	header,
-	data,
-	textColor,
-	stripeColor,
-	children,
-}) => {
+const Cards = ({ background, header, textColor, stripeColor, children }) => {
 	return (
 		<Row>
 			<Col>

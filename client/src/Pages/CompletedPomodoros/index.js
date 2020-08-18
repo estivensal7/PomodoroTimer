@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Container, Col, Row } from "reactstrap";
+import { Container } from "reactstrap";
 import backgroundImage from "../../assets/pomodoro-background-home.jpg";
 import PomodoroTable from "../../Components/PomodoroTable";
 
